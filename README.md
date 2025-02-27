@@ -1,2 +1,4 @@
-# Java-applets
-测试Java Applet
+# Snake
+贪吃蛇游戏
+
+*蛇年快乐！！*
