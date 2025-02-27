@@ -66,19 +66,28 @@
             color: white;
             text-align: center;
         }
-        #start-button {
+        #difficulty-buttons {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 30px;
+            text-align: center;
+        }
+        #difficulty-buttons button {
+            font-size: 20px;
             padding: 10px 20px;
+            margin: 10px;
         }
     </style>
 </head>
 <body>
     <div id="game-container">
-        <button id="start-button">开始游戏</button>
+        <div id="difficulty-buttons">
+            <button onclick="startGame(1)">简单</button>
+            <button onclick="startGame(4)">中等</button>
+            <button onclick="startGame(6)">困难</button>
+            <button onclick="startGame(10)">地狱</button>
+        </div>
         <div id="game-over" style="display: none;">
             <p>游戏结束！长度: <span id="final-length">0</span></p>
             <button onclick="restartGame()">再来一局</button>
@@ -94,11 +103,12 @@
     <script>
         const gridSize = 20;
         const cellSize = 1280 / gridSize;
-        let snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }, { x: 7, y: 10 }, { x: 6, y: 10 }, { x: 5, y: 10 }];
+        let snake = [];
         let direction = { x: 1, y: 0 };
         let food = { x: 5, y: 5 };
         let gameInterval;
         let isGameOver = false;
+        let initialLength = 6;
 
         function createGrid() {
             const gameContainer = document.getElementById('game-container');
@@ -171,8 +181,17 @@
             document.getElementById('game-over').style.display = 'block';
         }
 
+        function startGame(length) {
+            initialLength = length;
+            document.getElementById('difficulty-buttons').style.display = 'none';
+            restartGame();
+        }
+
         function restartGame() {
-            snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }, { x: 7, y: 10 }, { x: 6, y: 10 }, { x: 5, y: 10 }];
+            snake = [];
+            for (let i = 0; i < initialLength; i++) {
+                snake.push({ x: 10 - i, y: 10 });
+            }
             direction = { x: 1, y: 0 };
             placeFood();
             isGameOver = false;
@@ -181,11 +200,6 @@
             drawFood();
             gameInterval = setInterval(moveSnake, 200);
         }
-
-        document.getElementById('start-button').addEventListener('click', () => {
-            document.getElementById('start-button').style.display = 'none';
-            restartGame();
-        });
 
         document.getElementById('up').addEventListener('click', () => {
             if (direction.y === 0) direction = { x: 0, y: -1 };
@@ -205,4 +219,4 @@
         drawFood();
     </script>
 </body>
-</html>
+</html>>
